@@ -1,0 +1,44 @@
+<div class="app-container">
+  <div class="header" 
+       [style.background-color]="headerBackground"
+       [style.background-image]="headerBackgroundImage">
+    <h1>Kendo UI Color/Image Picker</h1>
+    <button kendoButton 
+            #colorPickerButton
+            (click)="openColorPicker()">
+      Change Header Color/Image
+    </button>
+  </div>
+  
+  <div class="content">
+    <div class="instructions">
+      <h2>Getting Started</h2>
+      <p>Click the button in the header to open the color/image picker.</p>
+      
+      <h3>Features:</h3>
+      <ul>
+        <li>Custom RGB color picker with gradient</li>
+        <li>Preset color palettes</li>
+        <li>Image upload</li>
+        <li>Pre-defined image library</li>
+      </ul>
+      
+      <h3>Implementation Details:</h3>
+      <p>This implementation uses Kendo UI components for Angular:</p>
+      <ul>
+        <li>TabStrip for organization</li>
+        <li>Popup for the floating picker</li>
+        <li>DropDownList for month selection</li>
+        <li>Buttons for actions</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Color Picker Template -->
+<ng-template #colorPickerTemplate>
+  <app-color-picker 
+    (colorSelected)="onColorSelected($event)"
+    (imageSelected)="onImageSelected($event)">
+  </app-color-picker>
+</ng-template>

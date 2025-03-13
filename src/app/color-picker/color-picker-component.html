@@ -1,0 +1,131 @@
+<div class="k-popup-wrapper">
+  <div class="k-header">
+    <div class="k-header-title">Header fill</div>
+    <button class="k-button k-button-icon k-flat" (click)="onClose()">
+      <span class="k-icon k-i-close"></span>
+      <span class="k-button-text">Close</span>
+    </button>
+  </div>
+
+  <div class="k-content">
+    <kendo-tabstrip>
+      <kendo-tabstrip-tab [title]="'Custom'" [selected]="tabSelected === 'custom'">
+        <ng-template kendoTabContent>
+          <div class="k-color-picker-wrapper">
+            <div class="k-color-gradient" #colorGradient
+                 (mousedown)="updateColorFromGradient($event)">
+              <div class="k-color-preview" 
+                   [style.left]="(rgbValues.r / 255) * 100 + '%'"
+                   [style.top]="(1 - rgbValues.g / 255) * 100 + '%'">
+              </div>
+            </div>
+            
+            <div class="k-color-slider-container">
+              <div class="k-color-slider k-alpha-slider">
+                <input type="range" min="0" max="1" step="0.01" 
+                       [(ngModel)]="alpha" 
+                       (input)="updateAlpha(alpha)">
+              </div>
+            </div>
+            
+            <div class="k-color-input-group">
+              <div class="k-color-input">
+                <label>R</label>
+                <input type="number" min="0" max="255" 
+                       [(ngModel)]="rgbValues.r" 
+                       (input)="updateRGB('r', rgbValues.r)">
+              </div>
+              <div class="k-color-input">
+                <label>G</label>
+                <input type="number" min="0" max="255" 
+                       [(ngModel)]="rgbValues.g" 
+                       (input)="updateRGB('g', rgbValues.g)">
+              </div>
+              <div class="k-color-input">
+                <label>B</label>
+                <input type="number" min="0" max="255" 
+                       [(ngModel)]="rgbValues.b" 
+                       (input)="updateRGB('b', rgbValues.b)">
+              </div>
+              <div class="k-color-input">
+                <label>A</label>
+                <input type="number" min="0" max="1" step="0.01" 
+                       [(ngModel)]="alpha" 
+                       (input)="updateAlpha(alpha)">
+              </div>
+            </div>
+            
+            <div class="k-color-preview-container">
+              <div class="k-color-preview-box" 
+                   [style.background-color]="currentColor"
+                   [style.opacity]="alpha">
+              </div>
+            </div>
+            
+            <div class="k-action-buttons">
+              <button kendoButton (click)="applyColor()" class="k-primary">Apply</button>
+            </div>
+          </div>
+        </ng-template>
+      </kendo-tabstrip-tab>
+      
+      <kendo-tabstrip-tab [title]="'Library'" [selected]="tabSelected === 'library'">
+        <ng-template kendoTabContent>
+          <div class="k-color-palette-wrapper">
+            <div class="k-color-palette">
+              <div class="k-color-row" *ngFor="let row of presetColors">
+                <div class="k-color-cell" *ngFor="let color of row" 
+                     [style.background-color]="color"
+                     (click)="selectPresetColor(color)">
+                </div>
+              </div>
+            </div>
+            
+            <div class="k-action-buttons">
+              <button kendoButton (click)="applyColor()" class="k-primary">Apply</button>
+            </div>
+          </div>
+        </ng-template>
+      </kendo-tabstrip-tab>
+      
+      <kendo-tabstrip-tab [title]="'Custom'" [selected]="tabSelected === 'upload'">
+        <ng-template kendoTabContent>
+          <div class="k-image-upload-wrapper">
+            <div class="k-image-upload-info">
+              <div class="k-upload-requirements">Required image size: 1024x100</div>
+            </div>
+            
+            <div class="k-upload-button-container">
+              <button kendoButton (click)="fileInput.click()" class="k-primary">
+                Upload from computer
+              </button>
+              <input #fileInput type="file" 
+                     style="display: none;" 
+                     accept="image/*" 
+                     (change)="handleFileInput($event)">
+            </div>
+          </div>
+        </ng-template>
+      </kendo-tabstrip-tab>
+      
+      <kendo-tabstrip-tab [title]="'Library'" [selected]="tabSelected === 'imageLibrary'">
+        <ng-template kendoTabContent>
+          <div class="k-image-library-wrapper">
+            <kendo-dropdownlist
+              [data]="months"
+              [(value)]="selectedMonth"
+              (valueChange)="selectMonth($event)">
+            </kendo-dropdownlist>
+            
+            <div class="k-image-library">
+              <div class="k-image-item" *ngFor="let image of presetImages[selectedMonth]"
+                   (click)="selectImage(image)">
+                <img [src]="image" alt="Preset image">
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </kendo-tabstrip-tab>
+    </kendo-tabstrip>
+  </div>
+</div>
